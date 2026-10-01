@@ -1,0 +1,48 @@
+# docker-compose.yml
+# Описание всех сервисов проекта. Запуск: docker compose up -d
+
+services:
+  # ============================================
+  # PostgreSQL — база данных для событий проходов
+  # ============================================
+  db:
+    image: postgres:16-alpine          # лёгкий образ PostgreSQL 16
+    container_name: cam-db             # имя контейнера (для удобства)
+    restart: unless-stopped            # автозапуск при падении/перезагрузке
+    environment:                       # переменные окружения для PostgreSQL
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - db_data:/var/lib/postgresql/data   # постоянное хранилище данных
+    ports:
+      - "5433:5432"                    # проброс порта наружу (для отладки)
+    networks:
+      - cam-net                        # подключён к общей сети
+
+  # ============================================
+  # MediaMTX — эмулятор RTSP-камеры
+  # ============================================
+  mediamtx:
+    image: bluenviron/mediamtx:latest  # официальный образ MediaMTX
+    container_name: cam-mediamtx
+    restart: unless-stopped
+    ports:
+      - "8554:8554"                    # RTSP-порт — сюда публикуется поток
+      - "8888:8888"                    # HLS — можно смотреть в браузере
+      - "8889:8889"                    # WebRTC — тоже браузерный просмотр
+    networks:
+      - cam-net
+
+# ============================================
+# Постоянные тома — переживают перезапуски
+# ============================================
+volumes:
+  db_data:
+
+# ============================================
+# Внутренняя сеть — все сервисы видят друг друга по именам
+# ============================================
+networks:
+  cam-net:
+    driver: bridge

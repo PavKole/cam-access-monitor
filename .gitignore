@@ -1,0 +1,23 @@
+# секреты
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Docker
+*.log
+
+# Кадры с камеры (не коммитим!)
+frames/
+*.jpg
+*.png
+
+# Иде и системы
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
