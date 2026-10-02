@@ -91,7 +91,7 @@ sudo apt install -y ffmpeg
 ### 1. Клонировать репозиторий
 
 ```bash
-git clone https://github.com/<твой-логин>/cam-access-monitor.git
+git clone https://github.com/<логин>/cam-access-monitor.git
 cd cam-access-monitor
 ```
 
@@ -101,7 +101,7 @@ cd cam-access-monitor
 cp .env.example .env
 ```
 
-При необходимости — открой `.env` и поменяй пароль к БД.
+При необходимости — открой `.env` и смени пароль к БД.
 
 ### 3. Запустить контейнеры
 
@@ -152,7 +152,7 @@ ffmpeg -re -f lavfi -i testsrc=size=1280x720:rate=25 \
 http://localhost/
 ```
 
-Ты увидишь:
+Что будет:
 - живой кадр с камеры (обновляется каждые 5 секунд);
 - список последних событий;
 - кнопки «Обновить» и «Симулировать проход».
